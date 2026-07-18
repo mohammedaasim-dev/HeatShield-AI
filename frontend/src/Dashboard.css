@@ -1,0 +1,67 @@
+.dashboard{
+
+    max-width:1500px;
+
+    margin:auto;
+
+    padding:25px;
+
+}
+
+.row{
+
+    display:grid;
+
+    grid-template-columns:1.2fr 1fr;
+
+    gap:25px;
+
+    margin-bottom:25px;
+
+}
+
+.card{
+
+    background:#1E293B;
+
+    border:1px solid #334155;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    transition:.3s;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+
+}
+
+.card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:#3B82F6;
+
+}
+
+.full-width{
+
+    width:100%;
+
+}
+
+@media(max-width:1100px){
+
+.row{
+
+grid-template-columns:1fr;
+
+}
+
+.dashboard{
+
+padding:15px;
+
+}
+
+}

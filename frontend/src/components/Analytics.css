@@ -1,0 +1,80 @@
+.analytics-card{
+
+    background:#1E293B;
+    border:1px solid #334155;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+
+}
+
+.analytics-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+
+}
+
+.analytics-header h2{
+
+    color:white;
+
+}
+
+.analytics-header span{
+
+    background:#0F172A;
+    padding:8px 15px;
+    border-radius:20px;
+    color:#CBD5E1;
+    font-size:14px;
+
+}
+
+.analytics-legend{
+
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    margin-top:20px;
+    flex-wrap:wrap;
+
+}
+
+.legend-item{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:white;
+    font-size:15px;
+
+}
+
+.legend{
+
+    width:15px;
+    height:15px;
+    border-radius:50%;
+
+}
+
+.low{
+
+    background:#22C55E;
+
+}
+
+.medium{
+
+    background:#F59E0B;
+
+}
+
+.high{
+
+    background:#EF4444;
+
+}

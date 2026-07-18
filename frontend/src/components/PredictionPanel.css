@@ -1,0 +1,261 @@
+.prediction-panel{
+
+    background:#1E293B;
+
+    border-radius:20px;
+
+    border:1px solid #334155;
+
+    padding:25px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+
+}
+
+.panel-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.panel-header h2{
+
+    color:white;
+
+}
+
+.live-badge{
+
+    background:#0F766E;
+
+    color:white;
+
+    padding:8px 15px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+}
+
+.weather-section{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+
+    margin-bottom:25px;
+
+}
+
+.weather-box{
+
+    background:#0F172A;
+
+    padding:18px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+}
+
+.weather-box span{
+
+    color:#CBD5E1;
+
+}
+
+.weather-box h3{
+
+    margin-top:8px;
+
+    color:#3B82F6;
+
+    font-size:24px;
+
+}
+
+.input-section{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+.input-section label{
+
+    color:#CBD5E1;
+
+    font-weight:500;
+
+}
+
+.input-section input{
+
+    background:#0F172A;
+
+    border:1px solid #334155;
+
+    color:white;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+.input-section input:focus{
+
+    border-color:#3B82F6;
+
+    box-shadow:0 0 10px rgba(59,130,246,.4);
+
+}
+
+.predict-btn{
+
+    width:100%;
+
+    margin-top:25px;
+
+    background:linear-gradient(90deg,#2563EB,#06B6D4);
+
+    color:white;
+
+    border:none;
+
+    padding:16px;
+
+    border-radius:15px;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-weight:600;
+
+}
+
+.predict-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 25px rgba(59,130,246,.4);
+
+}
+
+@media(max-width:700px){
+
+.weather-section{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+.live-toggle{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:white;
+
+    font-size:14px;
+
+    margin-bottom:20px;
+
+}
+
+.live-toggle input{
+
+    width:18px;
+
+    height:18px;
+
+    cursor:pointer;
+
+}
+
+/* ========================= */
+/* Predict Button Animation */
+/* ========================= */
+
+.predict-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+}
+
+.predict-btn:disabled{
+    cursor:not-allowed;
+    opacity:.9;
+}
+
+/* Spinner */
+
+.button-loader{
+    width:20px;
+    height:20px;
+    border:3px solid rgba(255,255,255,.35);
+    border-top:3px solid #ffffff;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+
+/* Animated Text */
+
+.loading-text{
+    animation:pulse 1.2s ease-in-out infinite;
+    font-weight:600;
+    letter-spacing:.4px;
+}
+
+@keyframes spin{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes pulse{
+
+    0%{
+        opacity:.5;
+    }
+
+    50%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:.5;
+    }
+
+}
