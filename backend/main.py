@@ -23,8 +23,7 @@ class HeatData(BaseModel):
     population: int
 
 
-model = joblib.load("../model/heatshield_model.pkl")
-
+model = joblib.load("model/heatshield_model.pkl")
 def recommendation(risk):
 
     if risk == "High":
