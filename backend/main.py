@@ -3,8 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
 import pandas as pd
-from ai_explanation import generate_explanation
-from routes.heatmap import router as heatmap_router
+from pathlib import Path
+from backend.ai_explanation import generate_explanation
+from backend.routes.heatmap import router as heatmap_router
 
 app = FastAPI()
 
@@ -31,7 +32,9 @@ class HeatData(BaseModel):
     population: int
 
 
-model = joblib.load("model/heatshield_model.pkl")
+MODEL_PATH = Path(__file__).resolve().parent / "model" / "heatshield_model.pkl"
+model = joblib.load(MODEL_PATH)
+
 def recommendation(risk):
 
     if risk == "High":
@@ -98,7 +101,7 @@ def predict(data: HeatData):
     "AI Explanation": ai_explanation
 }
 
-from routes.satellite import router as satellite_router
+from backend.routes.satellite import router as satellite_router
 
 app.include_router(
     satellite_router,

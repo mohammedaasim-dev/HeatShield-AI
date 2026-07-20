@@ -75,6 +75,9 @@ function LocationMarker({ setLocation }) {
     ) : null;
 }
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL ?? "";
+const API_BASE = BACKEND_URL || "/api";
+
 function MapComponent({ setLocation }) {
 
     const [heatPoints, setHeatPoints] = useState([]);
@@ -90,16 +93,36 @@ function MapComponent({ setLocation }) {
         try {
 
             const response = await fetch(
-                `http://127.0.0.1:8000/heatmap?latitude=${lat}&longitude=${lon}`
+                `${API_BASE}/heatmap?latitude=${lat}&longitude=${lon}`
             );
 
+            if (!response.ok) {
+                const text = await response.text();
+                console.error("Heatmap API error", response.status, response.url, text);
+                setHeatPoints([]);
+                return;
+            }
+
             const data = await response.json();
+
+            if (data?.error) {
+                console.error("Heatmap API returned error", data);
+                setHeatPoints([]);
+                return;
+            }
+
+            if (!Array.isArray(data)) {
+                console.error("Unexpected heatmap response", data);
+                setHeatPoints([]);
+                return;
+            }
 
             setHeatPoints(data);
 
         } catch (error) {
 
             console.error(error);
+            setHeatPoints([]);
 
         }
 

@@ -15,6 +15,9 @@ import AIExplanation from "./components/AIExplanation";
 
 import { generatePDF } from "./utils/generatePDF";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL ?? "";
+const API_BASE = BACKEND_URL || "/api";
+
 function App() {
 
     const [temperature, setTemperature] = useState("");
@@ -39,14 +42,26 @@ const fetchSatelliteData = async (lat, lon) => {
     try {
 
         const response = await fetch(
-            `https://heatshield-ai-kflx.onrender.com/satellite/all?latitude=${lat}&longitude=${lon}`
+            `${API_BASE}/satellite/all?latitude=${lat}&longitude=${lon}`
         );
 
         if (!response.ok) {
-            throw new Error("Failed to fetch satellite data");
+            const text = await response.text();
+            console.error("Satellite API error", response.status, response.url, text);
+            return;
         }
 
         const data = await response.json();
+
+        if (data?.error) {
+            console.error("Satellite API returned error", data);
+            return;
+        }
+
+        if (!data?.analysis || !data?.satellite_data) {
+            console.error("Satellite API returned unexpected body", data);
+            return;
+        }
 
         console.log("Satellite Data:", data);
 
@@ -98,7 +113,7 @@ const fetchSatelliteData = async (lat, lon) => {
 
         try {
 
-            const response = await fetch("https://heatshield-ai-kflx.onrender.com/predict", {
+            const response = await fetch(`${API_BASE}/predict`, {
 
                 method: "POST",
 

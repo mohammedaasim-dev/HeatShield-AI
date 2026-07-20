@@ -1,5 +1,5 @@
 import ee
-from gee.auth import initialize_gee
+from .auth import initialize_gee
 
 initialize_gee()
 

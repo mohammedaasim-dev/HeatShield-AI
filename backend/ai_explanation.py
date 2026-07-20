@@ -1,50 +1,47 @@
 import os
-from dotenv import load_dotenv
-from google import genai
 
-# Load .env
+try:
+    from dotenv import load_dotenv
+except ModuleNotFoundError:
+    def load_dotenv():
+        return None
+
+# Load .env if available
 load_dotenv()
 
-# Create Gemini client
-client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY")
-)
 
 def generate_explanation(temperature, humidity, ndvi, builtup, population, risk):
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        return "AI explanation unavailable because the GEMINI_API_KEY is not set."
 
-    prompt = f"""
-You are an AI environmental expert.
+    try:
+        import google.generativeai as genai
+    except ModuleNotFoundError:
+        return "AI explanation unavailable because the AI client is not installed."
 
-Analyze the following Urban Heat Island prediction.
+    if not hasattr(genai, "configure"):
+        return "AI explanation unavailable because the AI client is not supported."
 
-Temperature: {temperature}°C
-Humidity: {humidity}%
-NDVI: {ndvi}
-Built-up Area: {builtup}%
-Population: {population}
-Predicted Risk: {risk}
+    try:
+        genai.configure(api_key=api_key)
+    except Exception:
+        return "AI explanation unavailable due to AI client configuration error."
 
-Explain in simple English.
-
-Return only in this format:
-
-Summary:
-(2-3 sentences)
-
-Reasons:
-- point 1
-- point 2
-- point 3
-
-Recommendations:
-- point 1
-- point 2
-- point 3
-"""
-
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=prompt
+    prompt = (
+        f"Analyze the following Urban Heat Island prediction and return a short explanation. "
+        f"Temperature: {temperature}°C Humidity: {humidity}% NDVI: {ndvi} Built-up Area: {builtup}% Population: {population} "
+        f"Predicted Risk: {risk}"
     )
 
-    return response.text
+    if hasattr(genai, "generate_text"):
+        try:
+            response = genai.generate_text(
+                model="gemini-2.5-flash",
+                input=prompt
+            )
+            return getattr(response, "text", str(response))
+        except Exception:
+            return "AI explanation unavailable due to generation error."
+
+    return "AI explanation unavailable because the AI client library does not expose a supported generation method."
