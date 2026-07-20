@@ -75,8 +75,11 @@ function LocationMarker({ setLocation }) {
     ) : null;
 }
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL ?? "https://heatshield-ai-kflx.onrender.com";
-const API_BASE = BACKEND_URL || (import.meta.env.MODE === "development" ? "/api" : window.location.origin);
+const RENDER_BACKEND_URL = "https://heatshield-ai-kflx.onrender.com";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const API_BASE = import.meta.env.MODE === "development"
+    ? (BACKEND_URL ?? "/api")
+    : (BACKEND_URL ?? RENDER_BACKEND_URL);
 
 function MapComponent({ setLocation }) {
 
