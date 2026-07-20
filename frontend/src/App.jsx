@@ -17,7 +17,9 @@ import { generatePDF } from "./utils/generatePDF";
 
 const RENDER_BACKEND_URL = "https://heatshield-ai-kflx.onrender.com";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const API_BASE = import.meta.env.MODE === "development"
+const IS_LOCALHOST = typeof window !== "undefined" && 
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+const API_BASE = (import.meta.env.MODE === "development" || IS_LOCALHOST)
     ? (BACKEND_URL ?? "/api")
     : (BACKEND_URL ?? RENDER_BACKEND_URL);
 
