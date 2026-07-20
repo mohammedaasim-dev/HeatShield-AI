@@ -109,3 +109,15 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.green-marker img {
+    filter: hue-rotate(90deg);
+}
+
+.yellow-marker img {
+    filter: hue-rotate(40deg);
+}
+
+.red-marker img {
+    filter: hue-rotate(-40deg);
+}

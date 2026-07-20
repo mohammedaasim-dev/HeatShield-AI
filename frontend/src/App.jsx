@@ -13,7 +13,6 @@ import TemperatureChart from "./components/TemperatureChart";
 import HistoryTable from "./components/HistoryTable";
 import AIExplanation from "./components/AIExplanation";
 
-import { getWeather } from "./api/weather";
 import { generatePDF } from "./utils/generatePDF";
 
 function App() {
@@ -34,33 +33,63 @@ function App() {
     const [location, setLocation] = useState(null);
 
     // Fetch Weather
-    const fetchWeather = async (lat, lon) => {
+    // Fetch Satellite Data
+const fetchSatelliteData = async (lat, lon) => {
 
-        try {
+    try {
 
-            const weather = await getWeather(lat, lon);
+        const response = await fetch(
+            `https://heatshield-ai-kflx.onrender.com/satellite/all?latitude=${lat}&longitude=${lon}`
+        );
 
-            setTemperature(weather.main.temp);
-            setHumidity(weather.main.humidity);
-
-        } catch (error) {
-
-            console.error(error);
-
+        if (!response.ok) {
+            throw new Error("Failed to fetch satellite data");
         }
 
-    };
+        const data = await response.json();
+
+        console.log("Satellite Data:", data);
+
+        // Temperature (Land Surface Temperature)
+        setTemperature(
+            data.analysis.land_surface_temperature ?? ""
+        );
+
+        // Humidity
+        setHumidity(
+            data.satellite_data.weather?.humidity ?? ""
+        );
+
+        // NDVI
+        setNdvi(
+            data.satellite_data.sentinel?.ndvi?.toFixed(2) ?? ""
+        );
+
+        // Built-up %
+        if (data.satellite_data.worldcover?.land_cover === "Built-up") {
+            setBuiltup(90);
+        } else {
+            setBuiltup(30);
+        }
+
+    } catch (error) {
+
+        console.error("Satellite API Error:", error);
+
+    }
+
+};
 
     // Update weather when map location changes
     useEffect(() => {
 
-        if (location) {
+    if (location) {
 
-            fetchWeather(location.lat, location.lng);
+        fetchSatelliteData(location.lat, location.lng);
 
-        }
+    }
 
-    }, [location]);
+}, [location]);
 
     // Predict Heat Risk
     const predictHeatRisk = async () => {

@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import joblib
 import pandas as pd
 from ai_explanation import generate_explanation
+from routes.heatmap import router as heatmap_router
 
 app = FastAPI()
 
@@ -96,3 +97,17 @@ def predict(data: HeatData):
     "Recommendations": suggestions,
     "AI Explanation": ai_explanation
 }
+
+from routes.satellite import router as satellite_router
+
+app.include_router(
+    satellite_router,
+    prefix="/satellite",
+    tags=["Satellite Analysis"]
+)
+
+app.include_router(
+    heatmap_router,
+    prefix="/heatmap",
+    tags=["Heat Map"]
+)
